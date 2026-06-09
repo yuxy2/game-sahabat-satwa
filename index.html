@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jelajah Nusantara: Sahabat Satwa - Petualangan Edukasi Interaktif Satwa Endemik Indonesia. Kenali, cintai, dan lindungi satwa langka Indonesia!">
+  <title>Jelajah Nusantara: Sahabat Satwa</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="#" class="nav-brand" onclick="navigateTo('beranda')">
+      <span class="nav-logo">🦁</span> Jelajah <span>Nusantara</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#" data-section="beranda" class="active">🏠 Beranda</a></li>
+      <li><a href="#" data-section="jelajah">🦎 Jelajah Satwa</a></li>
+      <li><a href="#" data-section="kuis">🧠 Kuis</a></li>
+      <li><a href="#" data-section="chat">💬 Chat Satwa</a></li>
+    </ul>
+    <button class="nav-hamburger" id="nav-hamburger">☰</button>
+  </nav>
+
+  <!-- BERANDA -->
+  <div class="section active" id="section-beranda">
+    <div class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <span class="hero-badge">🇮🇩 Edukasi Interaktif</span>
+        <h1>Jelajah Nusantara: Sahabat Satwa</h1>
+        <p>Petualangan seru mengenal satwa endemik Indonesia! Dengarkan cerita mereka, uji pengetahuanmu, dan pelajari cara melindungi mereka. 🌿</p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary" onclick="navigateTo('jelajah')">🦎 Mulai Jelajah</button>
+          <button class="btn btn-secondary" onclick="navigateTo('kuis')">🧠 Main Kuis</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">🦁</div>
+        <div class="stat-value" id="stat-total">0</div>
+        <div class="stat-label">Satwa Endemik</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🔴</div>
+        <div class="stat-value" id="stat-kritis">0</div>
+        <div class="stat-label">Status Kritis</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🟠</div>
+        <div class="stat-value" id="stat-rentan">0</div>
+        <div class="stat-label">Status Rentan</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🏝️</div>
+        <div class="stat-value" id="stat-pulau">0</div>
+        <div class="stat-label">Wilayah Tersebar</div>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <h2>🌟 Satwa Pilihan</h2>
+      <p>Kenali tiga satwa ikonik Indonesia yang membutuhkan perlindunganmu!</p>
+    </div>
+    <div class="animal-grid" id="featured-grid" style="max-width:900px;margin:0 auto"></div>
+
+    <div style="text-align:center;margin-top:36px">
+      <button class="btn btn-primary" onclick="navigateTo('jelajah')">Lihat Semua Satwa →</button>
+    </div>
+  </div>
+
+  <!-- JELAJAH SATWA -->
+  <div class="section" id="section-jelajah">
+    <div class="section-header">
+      <h2>🦎 Jelajah Satwa Endemik</h2>
+      <p>Klik kartu satwa untuk mengetahui informasi lengkap, fakta unik, dan tips konservasi!</p>
+    </div>
+    <div class="animal-grid" id="animal-grid"></div>
+  </div>
+
+  <!-- DETAIL -->
+  <div class="section" id="section-detail">
+    <div id="detail-content"></div>
+  </div>
+
+  <!-- KUIS -->
+  <div class="section" id="section-kuis">
+    <div class="section-header">
+      <h2>🧠 Kuis Sahabat Satwa</h2>
+      <p>Uji pengetahuanmu tentang satwa endemik Indonesia! 10 pertanyaan menantang menantimu.</p>
+    </div>
+    <div class="quiz-container" id="quiz-content"></div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="section" id="section-chat">
+    <div class="section-header">
+      <h2>💬 Ngobrol dengan Satwa</h2>
+      <p>Pilih satwa dan mulai berdialog! Tanyakan tentang habitat, fakta unik, atau cara melindungi mereka.</p>
+    </div>
+    <div class="chat-container">
+      <div class="chat-animal-selector" id="chat-selectors"></div>
+      <div class="chat-box">
+        <div class="chat-header" id="chat-header">
+          <div class="chat-header-info"><h4>Pilih satwa di atas</h4><p>untuk memulai percakapan</p></div>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-area">
+          <input type="text" class="chat-input" id="chat-input" placeholder="Ketik pesanmu di sini..." autocomplete="off">
+          <button class="chat-send" onclick="sendChat()">➤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>🌿 <strong>Jelajah Nusantara: Sahabat Satwa</strong> — Petualangan Edukasi Interaktif Satwa Endemik Indonesia</p>
+    <p style="margin-top:8px">Dibuat dengan ❤️ untuk generasi penjaga alam Indonesia</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // Render featured animals on home page
+    document.addEventListener('DOMContentLoaded', () => {
+      const featured = ['harimau-sumatera','komodo','cendrawasih'];
+      const grid = document.getElementById('featured-grid');
+      grid.innerHTML = featured.map(id => {
+        const a = ANIMALS.find(x => x.id === id);
+        return `
+          <div class="animal-card" onclick="showAnimalDetail('${a.id}')">
+            <div class="animal-card-img-wrap">
+              <img class="animal-card-img" src="${a.image}" alt="${a.name}" loading="lazy">
+              <span class="animal-card-status status-${a.statusClass}">${a.status}</span>
+            </div>
+            <div class="animal-card-body">
+              <h3>${a.name}</h3>
+              <p class="latin">${a.latin}</p>
+              <p class="location">${a.location}</p>
+            </div>
+            <button class="card-audio-btn" onclick="event.stopPropagation();playAudio('${a.audio}',this)" title="Dengarkan narasi">🔊</button>
+          </div>`;
+      }).join('');
+    });
+  </script>
+</body>
+</html>
