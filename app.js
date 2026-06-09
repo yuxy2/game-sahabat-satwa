@@ -103,6 +103,48 @@ function playAudio(file, btn) {
   audio.onended = () => { btn?.classList.remove('playing'); currentAudio = null; };
 }
 
+// ===== SOUND EFFECTS (Web Audio API Synthesizer) =====
+function playSfx(type) {
+  try {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (type === 'correct') {
+      const playTone = (freq, time, duration) => {
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, time);
+        gainNode.gain.setValueAtTime(0, time);
+        gainNode.gain.linearRampToValueAtTime(0.12, time + 0.02);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+        osc.start(time);
+        osc.stop(time + duration);
+      };
+      const now = audioCtx.currentTime;
+      playTone(523.25, now, 0.15); // C5
+      playTone(659.25, now + 0.08, 0.25); // E5
+      playTone(783.99, now + 0.16, 0.4); // G5
+    } else if (type === 'wrong') {
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      osc.type = 'triangle';
+      const now = audioCtx.currentTime;
+      osc.frequency.setValueAtTime(150, now);
+      osc.frequency.linearRampToValueAtTime(80, now + 0.35);
+      gainNode.gain.setValueAtTime(0, now);
+      gainNode.gain.linearRampToValueAtTime(0.15, now + 0.02);
+      gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+      osc.start(now);
+      osc.stop(now + 0.35);
+    }
+  } catch (e) {
+    console.error('AudioContext not supported:', e);
+  }
+}
+
 // ===== QUIZ =====
 function initQuiz() {
   const shuffled = [...QUIZ_QUESTIONS].sort(() => Math.random() - 0.5);
@@ -139,7 +181,12 @@ function answerQuiz(idx) {
   quizState.answered = true;
   const item = quizState.questions[quizState.current];
   const correct = idx === item.answer;
-  if (correct) quizState.score++;
+  if (correct) {
+    quizState.score++;
+    playSfx('correct');
+  } else {
+    playSfx('wrong');
+  }
   document.querySelectorAll('.quiz-option').forEach((b,i) => {
     b.disabled = true;
     if (i === item.answer) b.classList.add('correct');
